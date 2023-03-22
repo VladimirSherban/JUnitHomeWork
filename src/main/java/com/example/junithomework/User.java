@@ -11,6 +11,11 @@ public class User {
     }
 
     public User(String login, String email) {
+
+        if (email.equals(login)) {
+            throw new IllegalArgumentException("Логин и маил не могу быть одинаковыми");
+        }
+
         setLogin(login);
         setEmail(email);
     }
@@ -20,9 +25,6 @@ public class User {
     }
 
     public void setLogin(String login) {
-        if (Objects.equals(login, email)) {
-            throw new IllegalArgumentException();
-        }
         this.login = login;
     }
 
@@ -31,11 +33,8 @@ public class User {
     }
 
     public void setEmail(String email) {
-        if (email.replace("@", "").equals(login)) {
-            throw new IllegalArgumentException("Логин и пароль не могу быть одинаковыми");
-        }
-        if (!email.contains("@")) {
-            throw new IllegalArgumentException("email должен содержать '@'");
+        if (!email.contains("@") || !email.contains(".")) {
+            throw new IllegalArgumentException("email должен содержать '@' и '.' ");
         }
         this.email = email;
     }
