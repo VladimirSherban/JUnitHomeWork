@@ -11,12 +11,8 @@ public class User {
     }
 
     public User(String login, String email) {
-        this.login = login;
-        this.email = email;
-    }
-
-    public User(String email) {
-        this.email = email;
+        setLogin(login);
+        setEmail(email);
     }
 
     public String getLogin() {
@@ -24,6 +20,9 @@ public class User {
     }
 
     public void setLogin(String login) {
+        if (Objects.equals(login, email)) {
+            throw new IllegalArgumentException();
+        }
         this.login = login;
     }
 
@@ -32,6 +31,12 @@ public class User {
     }
 
     public void setEmail(String email) {
+        if (email.replace("@", "").equals(login)) {
+            throw new IllegalArgumentException("Логин и пароль не могу быть одинаковыми");
+        }
+        if (!email.contains("@")) {
+            throw new IllegalArgumentException("email должен содержать '@'");
+        }
         this.email = email;
     }
 
@@ -46,5 +51,13 @@ public class User {
     @Override
     public int hashCode() {
         return Objects.hash(login, email);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "login='" + login + '\'' +
+                ", email='" + email + '\'' +
+                '}';
     }
 }
